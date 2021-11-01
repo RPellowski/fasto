@@ -1,2 +1,2 @@
 # fasto
-![Build](https://github.com/RPellowski/fasto/actions/workflows/main.yml/badge.svg)
+[![CI](https://github.com/RPellowski/fasto/actions/workflows/blank.yml/badge.svg)](https://github.com/RPellowski/fasto/actions/workflows/blank.yml)
