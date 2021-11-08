@@ -1,8 +1,15 @@
 import cv2
 import time
 import math
+import numpy as np
+import argparse
 NS_PER_S=1000000000
 ESC=27
+#https://github.com/ZER-0-NE/EAST-Detector-for-text-detection-using-OpenCV.git
+layerNames = [
+	"feature_fusion/Conv_7/Sigmoid",
+	"feature_fusion/concat_3"]
+net = cv2.dnn.readNet(args["east"])
 
 def find_square(oframe):
     frame = cv2.cvtColor(oframe, cv2.COLOR_BGR2GRAY)
@@ -12,6 +19,9 @@ def find_square(oframe):
         pt1 = (line[0], line[1])
         pt2 = (line[2], line[3])
         cv2.line(oframe, pt1, pt2, (0, 0, 255), 3)
+
+def find_text(frame):
+    pass
 
 def show_live():
     t0=time.time()
@@ -35,10 +45,10 @@ def show_live():
         frames+=1
         dt=time.time_ns()-t1
         if (dt > NS_PER_S):
-            s=str(frames)
+            s="fps:" + str(frames)
             t1=time.time_ns()
             frames=0
-        cv2.putText(frame, s, (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
+        cv2.putText(frame, s, (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 255), 3, lineType=cv2.LINE_AA)
         find_square(frame)
         cv2.imshow("camera", frame)
         rval, frame = cam.read()
