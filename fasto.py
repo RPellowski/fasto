@@ -9,7 +9,7 @@ ESC=27
 layerNames = [
 	"feature_fusion/Conv_7/Sigmoid",
 	"feature_fusion/concat_3"]
-net = cv2.dnn.readNet(args["east"])
+net = cv2.dnn.readNet(r"c:\Documents and Settings\rpell\Coding\Fasto\EAST-Detector-for-text-detection-using-OpenCV\frozen_east_text_detection.pb")
 
 def find_square(oframe):
     frame = cv2.cvtColor(oframe, cv2.COLOR_BGR2GRAY)
@@ -35,9 +35,25 @@ def show_live():
         print(time.time()-t0)
         rval, frame = cam.read()
         print(time.time()-t0)
+        orig = frame.copy()
+        (H, W) = frame.shape[:2]
+        print("h",H,"w",W)
+        blob = cv2.dnn.blobFromImage(frame, 1.0, (W, H), (123.68, 116.78, 103.94), swapRB=True, crop=False)
+        net.setInput(blob)
+        (scores, geometry) = net.forward(layerNames)
+        print(scores, geometry);
+        cv2.imshow("camera", frame)
     else:
         rval = False
 
+    while True:
+        key = cv2.waitKey(20)
+        if key == ESC: # exit on ESC
+            break
+    cam.release()
+    cv2.destroyWindow("camera")
+
+def foo():
     t1=time.time_ns()
     frames=0
     s='0'
