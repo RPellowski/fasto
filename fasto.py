@@ -88,6 +88,7 @@ def show_live():
                 confidences.append(scoresData[x])
                 print(scoresData[x])
 
+        np.save(r'rects.data', rects, allow_pickle=True, fix_imports=True)
         for (startX, startY, endX, endY) in rects:
             # scale the bounding box coordinates based on the respective
             # ratios
